@@ -4,7 +4,7 @@ title: '#4471 · more than one problem'
 owner: Łukasz Lipiński
 status: closed
 reviewed: 2026-10-28
-signature: Łukasz Lipiński
+signature: lipinski
 ---
 
 <script>
