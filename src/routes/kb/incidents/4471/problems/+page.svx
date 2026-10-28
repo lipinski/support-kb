@@ -1,0 +1,56 @@
+---
+layout: runbook
+title: '#4471 · more than one problem'
+owner: Łukasz Lipiński
+status: open
+reviewed: 2026-10-28
+signature: Łukasz Lipiński
+---
+
+<script>
+  import ProblemTable from '#lib/kb/ProblemTable.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+  import Callout from '#lib/kb/Callout.svelte';
+
+  const issues = {
+    parser: 'https://github.com/lipinski/support-kb/issues/1',
+    hint: 'https://github.com/lipinski/support-kb/issues/2',
+    'one-day': 'https://github.com/lipinski/support-kb/issues/3',
+  };
+</script>
+
+[#4471](/kb/incidents/4471) is marked known: one issue, one fix queued. Its reports hold more than
+one problem. The queued parser fix closes only the first one.
+
+<Callout kind="warn">
+Each problem has its own ticket. Counts below are built from the ticket export at render time.
+</Callout>
+
+## The problems
+
+<ProblemTable ticket={4471} {issues} />
+
+1. **`parser`: the shared parser reads dates month first.** Every tenant in #4471 writes the day
+   first, so any day of 12 or less comes out with day and month swapped.
+2. **`hint`: the booking-v3 form hint says `MM/DD/YYYY`.** The booking-v3 tenants write the day
+   first and the form reads input their way, but the hint tells people to type the month first.
+   Only reports through the form on booking-v3 tenants. The parser fix does not touch it.
+3. **`one-day`: dates move by one day.** Not a swap: the same meeting shows Tuesday in Lisbon and
+   Monday in Toronto, and an invite can arrive dated before its booking. The desk noted these
+   (`desk-notes.json`), but the kb filed them under `parser` by tenant. One reporter says they
+   have stopped sending these, so the count is a floor.
+
+## Why they were merged
+
+- Triage merges by subject line ([decision 0001](/kb/decisions/0001-dedupe-by-subject)). All these
+  problems arrive under the same handful of subjects ("Wrong day on the invite", "Dates mixed
+  up"), so they landed in one ticket.
+- Intake tags a report from the reporter's browser locale. The cause depends on the tenant's locale
+  and form, so the tags disagree with the cause in both directions (see the table).
+
+## What to do
+
+- Track each problem in its own ticket, linked above. Do not close them with the parser fix.
+- Read the body before you merge a date report: a swap and a one-day move look alike by subject.
+
+<RenderStamp {signature} />

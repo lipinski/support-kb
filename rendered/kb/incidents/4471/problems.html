@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="../../../_app/immutable/entry/start.BsG1TvWF.js" rel="modulepreload">
+		<link href="../../../_app/immutable/chunks/WgfOfNfE.js" rel="modulepreload">
+		<link href="../../../_app/immutable/chunks/DkdnmMbi.js" rel="modulepreload">
+		<link href="../../../_app/immutable/chunks/CZomEjWq.js" rel="modulepreload">
+		<link href="../../../_app/immutable/entry/app.CJUViiF2.js" rel="modulepreload">
+		<link href="../../../_app/immutable/chunks/DZni_WYU.js" rel="modulepreload">
+		<link href="../../../_app/immutable/chunks/BMv-2JeR.js" rel="modulepreload">
+		<link href="../../../_app/immutable/chunks/DQhTBKxc.js" rel="modulepreload">
+		<link href="../../../_app/immutable/chunks/DL3LuOT-.js" rel="modulepreload">
+		<link href="../../../_app/immutable/nodes/0.Dqsao82p.js" rel="modulepreload">
+		<link href="../../../_app/immutable/chunks/BRmqMdvF.js" rel="modulepreload">
+		<link href="../../../_app/immutable/nodes/5.CpA-krOE.js" rel="modulepreload">
+		<link href="../../../_app/immutable/chunks/DrTjle7m.js" rel="modulepreload">
+		<link href="../../../_app/immutable/chunks/CCdwa9zY.js" rel="modulepreload">
+		<link href="../../../_app/immutable/chunks/DbG4UGrs.js" rel="modulepreload">
+		<link href="../../../_app/immutable/chunks/iXLSwIXB.js" rel="modulepreload">
+		<!--e2jw2j--><!----><title>#4471 · more than one problem · support kb</title>
+		<link href="../../../_app/immutable/assets/runbook.BhhgOc_n.css" rel="stylesheet">
+		<link href="../../../_app/immutable/assets/Callout.yLErXQDM.css" rel="stylesheet">
+		<link href="../../../_app/immutable/assets/5.Dp0s37br.css" rel="stylesheet">
+  </head>
+  <body>
+    <div style="display: contents"><!--[--><!--[0--><!--[--><!--[--><div class="kb svelte-e2jw2j"><header><a class="crumb svelte-e2jw2j" href="/kb">support desk · kb</a> <h1 class="svelte-e2jw2j">#4471 · more than one problem</h1> <p class="meta svelte-e2jw2j"><span>owner <b>Łukasz Lipiński</b></span> <span class="status open svelte-e2jw2j">open</span> <span class="svelte-e2jw2j">reviewed 2026-10-28 · 0 days ago</span></p></header> <!--[-1--><!--]--> <main><p><a href="/kb/incidents/4471">#4471</a> is marked known: one issue, one fix queued. Its reports hold more than
+one problem. The queued parser fix closes only the first one.</p> <aside class="warn svelte-17bri61"><!---->Each problem has its own ticket. Counts below are built from the ticket export at render time.<!----></aside><!----> <h2>The problems</h2> <p class="sum svelte-1op6c6"><strong>412</strong> reports merged into #4471 · <strong>3</strong> problems</p> <table><thead><tr><th>problem</th><th>reports</th><th>intake tagged as</th><th>tenants</th><th>seen</th><th>ticket</th></tr></thead><tbody><!--[--><tr><td><code>parser</code></td><td>374</td><td class="tags svelte-1op6c6">parser ×351 · hint ×23</td><td>11</td><td>2026-04-01 → 2026-10-04</td><td><!--[0--><a href="https://github.com/lipinski/support-kb/issues/1">issue #1</a><!--]--></td></tr><tr><td><code>hint</code></td><td>33</td><td class="tags svelte-1op6c6">hint ×18 · parser ×15</td><td>3</td><td>2026-04-17 → 2026-09-22</td><td><!--[0--><a href="https://github.com/lipinski/support-kb/issues/2">issue #2</a><!--]--></td></tr><tr><td><code>one-day</code></td><td>5</td><td class="tags svelte-1op6c6">parser ×5</td><td>5</td><td>2026-04-02 → 2026-10-04</td><td><!--[0--><a href="https://github.com/lipinski/support-kb/issues/3">issue #3</a><!--]--></td></tr><!--]--></tbody></table><!----> <ol><li><strong><code>parser</code>: the shared parser reads dates month first.</strong> Every tenant in #4471 writes the day
+first, so any day of 12 or less comes out with day and month swapped.</li> <li><strong><code>hint</code>: the booking-v3 form hint says <code>MM/DD/YYYY</code>.</strong> The booking-v3 tenants write the day
+first and the form reads input their way, but the hint tells people to type the month first.
+Only reports through the form on booking-v3 tenants. The parser fix does not touch it.</li> <li><strong><code>one-day</code>: dates move by one day.</strong> Not a swap: the same meeting shows Tuesday in Lisbon and
+Monday in Toronto, and an invite can arrive dated before its booking. The desk noted these
+(<code>desk-notes.json</code>), but the kb filed them under <code>parser</code> by tenant. One reporter says they
+have stopped sending these, so the count is a floor.</li></ol> <h2>Why they were merged</h2> <ul><li>Triage merges by subject line (<a href="/kb/decisions/0001-dedupe-by-subject">decision 0001</a>). All these
+problems arrive under the same handful of subjects (“Wrong day on the invite”, “Dates mixed
+up”), so they landed in one ticket.</li> <li>Intake tags a report from the reporter’s browser locale. The cause depends on the tenant’s locale
+and form, so the tags disagree with the cause in both directions (see the table).</li></ul> <h2>What to do</h2> <ul><li>Track each problem in its own ticket, linked above. Do not close them with the parser fix.</li> <li>Read the body before you merge a date report: a swap and a one-day move look alike by subject.</li></ul> <!--[0--><p class="stamp svelte-1280m42">desk ref <b class="svelte-1280m42">DR-SHCK-J9YB</b></p><!--]--><!----><!----></main> <footer class="svelte-e2jw2j">Pages are written by people. Tables and charts are built from data at render time.</footer></div><!--]--><!----><!--]--><!--]--> <!--[-1--><!--]--><!--]-->
+			
+			<script>
+				{
+					__sveltekit_1f44y3f = {
+						base: new URL("../../..", location).pathname.slice(0, -1)
+					};
+
+					const element = document.currentScript.parentElement;
+
+					Promise.all([
+						import("../../../_app/immutable/entry/start.BsG1TvWF.js"),
+						import("../../../_app/immutable/entry/app.CJUViiF2.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element, {
+							node_ids: [0, 5],
+							data: [null,null],
+							form: null,
+							error: null
+						});
+					});
+				}
+			</script>
+		</div>
+  </body>
+</html>
