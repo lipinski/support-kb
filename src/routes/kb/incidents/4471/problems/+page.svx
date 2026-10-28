@@ -2,7 +2,7 @@
 layout: runbook
 title: '#4471 · more than one problem'
 owner: Łukasz Lipiński
-status: open
+status: closed
 reviewed: 2026-10-28
 signature: Łukasz Lipiński
 ---
@@ -19,8 +19,12 @@ signature: Łukasz Lipiński
   };
 </script>
 
-[#4471](/kb/incidents/4471) is marked known: one issue, one fix queued. Its reports hold more than
-one problem. The queued parser fix closes only the first one.
+[#4471](/kb/incidents/4471) was marked known: one issue, one fix queued. Its reports hold more than
+one problem. Engineering closed #4471 on 5 October:
+
+- `parser`: **fixed** (`fix(dates): parse dd/mm for eu locales`).
+- `hint`: **won't fix**. The booking-v3 form is retired.
+- `one-day`: no fix named. The parser fix does not touch it.
 
 <Callout kind="warn">
 Each problem has its own ticket. Counts below are the desk's own view, built from the ticket export
@@ -35,7 +39,7 @@ at render time. One-day moves stay counted under their cause, as the desk files 
    first, so any day of 12 or less comes out with day and month swapped.
 2. **`hint`: the booking-v3 form hint says `MM/DD/YYYY`.** The booking-v3 tenants write the day
    first and the form reads input their way, but the hint tells people to type the month first.
-   Only reports through the form on booking-v3 tenants. The parser fix does not touch it.
+   Only reports through the form on booking-v3 tenants. Won't fix: the form is retired.
 3. **`one-day`: dates move by one day.** Not a swap: the same meeting shows Tuesday in Lisbon and
    Monday in Toronto, and an invite can arrive dated before its booking. The desk noted these
    (`desk-notes.json`), but the kb filed them under `parser` by tenant. One reporter says they
@@ -51,7 +55,8 @@ at render time. One-day moves stay counted under their cause, as the desk files 
 
 ## What to do
 
-- Track each problem in its own ticket, linked above. Do not close them with the parser fix.
+- Track each problem in its own ticket, linked above. A fix for one does not close the others.
+- A new one-day report after 5 October is not the parser: reopen the `one-day` ticket.
 - Read the body before you merge a date report: a swap and a one-day move look alike by subject.
 
 <RenderStamp {signature} />
