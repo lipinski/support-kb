@@ -23,7 +23,8 @@ signature: Łukasz Lipiński
 one problem. The queued parser fix closes only the first one.
 
 <Callout kind="warn">
-Each problem has its own ticket. Counts below are built from the ticket export at render time.
+Each problem has its own ticket. Counts below are the desk's own view, built from the ticket export
+at render time. One-day moves stay counted under their cause, as the desk files them.
 </Callout>
 
 ## The problems

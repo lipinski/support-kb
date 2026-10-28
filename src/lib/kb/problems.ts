@@ -1,41 +1,19 @@
-// The problems inside #4471: the desk's two causes, plus the one-day moves the desk noted.
+// The problems inside #4471: the desk's own cause view, plus the one-day moves the desk noted.
 import notes from '#lib/data/desk-notes.json';
-import { causeOf, type Report, type Tenant } from '#lib/kb/causes';
+import { groupByCause, type CauseGroup, type Report, type Tenant } from '#lib/kb/causes';
 
-export type Problem = 'parser' | 'hint' | 'one-day' | 'unplaced';
+export type Problem = CauseGroup['cause'] | 'one-day';
 
-export type ProblemGroup = {
-  problem: Problem;
-  reports: Report[];
-  taggedAs: Record<string, number>;
-  tenants: number;
-  firstSeen: string;
-  lastSeen: string;
-};
+export type ProblemGroup = Omit<CauseGroup, 'cause' | 'mergedInto'> & { problem: Problem; within: CauseGroup['cause'][] };
 
-// A one-day move is not a month flip: the date shifts by a day, whatever the tenant writes.
-export function problemOf(r: Report, t: Tenant | undefined, oneDayMove: readonly string[] = notes.oneDayMove): Problem {
-  if (oneDayMove.includes(r.id)) return 'one-day';
-  return causeOf(r, t) ?? 'unplaced';
-}
-
-export function groupByProblem(reports: Report[], tenantOf: (r: Report) => Tenant | undefined): ProblemGroup[] {
-  const by = new Map<Problem, Report[]>();
-  for (const r of reports) {
-    const p = problemOf(r, tenantOf(r));
-    by.set(p, [...(by.get(p) ?? []), r]);
-  }
-  return [...by.entries()]
-    .map(([problem, rs]) => {
-      const days = rs.map((r) => r.receivedAt.slice(0, 10)).sort();
-      return {
-        problem,
-        reports: rs,
-        taggedAs: rs.reduce<Record<string, number>>((n, r) => ({ ...n, [r.meta.intakeTag]: (n[r.meta.intakeTag] ?? 0) + 1 }), {}),
-        tenants: new Set(rs.map((r) => r.tenant)).size,
-        firstSeen: days[0],
-        lastSeen: days[days.length - 1],
-      };
-    })
-    .sort((a, b) => b.reports.length - a.reports.length);
+// One-day moves stay counted under their cause, as the desk counts them, and get a row of their own.
+export function groupByProblem(reports: Report[], tenantOf: (r: Report) => Tenant | undefined, oneDayMove: readonly string[] = notes.oneDayMove): ProblemGroup[] {
+  const byCause = groupByCause(reports, tenantOf);
+  const rows: ProblemGroup[] = byCause.map(({ cause, mergedInto: _, ...g }) => ({ ...g, problem: cause, within: [] }));
+  const moved = reports.filter((r) => oneDayMove.includes(r.id));
+  if (!moved.length) return rows;
+  // Summarise the moved reports as one group, whatever their cause.
+  const [{ cause: _c, mergedInto: _m, ...g }] = groupByCause(moved, () => undefined);
+  const within = byCause.filter((c) => c.reports.some((r) => oneDayMove.includes(r.id))).map((c) => c.cause);
+  return [...rows, { ...g, problem: 'one-day', within }];
 }
