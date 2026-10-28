@@ -22,9 +22,9 @@ signature: lipinski
 [#4471](/kb/incidents/4471) was marked known: one issue, one fix queued. Its reports hold more than
 one problem. Engineering closed #4471 on 5 October:
 
-- `parser`: **fixed** (`fix(dates): parse dd/mm for eu locales`).
-- `hint`: **won't fix**. The booking-v3 form is retired.
-- `one-day`: no fix named. The parser fix does not touch it.
+- `parser`: **fixed** (`fix(dates): parse dd/mm for eu locales`). Ticket: [#1](https://github.com/lipinski/support-kb/issues/1).
+- `hint`: **won't fix**. The booking-v3 form is retired. Ticket: [#2](https://github.com/lipinski/support-kb/issues/2).
+- `one-day`: no fix named. The parser fix does not touch it. Ticket: [#3](https://github.com/lipinski/support-kb/issues/3).
 
 <Callout kind="warn">
 Each problem has its own ticket. Counts below are the desk's own view, built from the ticket export
